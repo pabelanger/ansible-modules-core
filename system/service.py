@@ -280,7 +280,7 @@ class Service(object):
         if self.state and self.running is None:
             self.module.fail_json(msg="failed determining service state, possible typo of service name?")
         # Find out if state has changed
-        if not self.running and self.state in ["started", "running", "reloaded"]:
+        if not self.running and self.state in ["started", "running"]:
             self.svc_change = True
         elif self.running and self.state in ["stopped","reloaded"]:
             self.svc_change = True
@@ -295,8 +295,6 @@ class Service(object):
         if self.svc_change:
             # Control service
             if self.state in ['started', 'running']:
-                self.action = "start"
-            elif not self.running and self.state == 'reloaded':
                 self.action = "start"
             elif self.state == 'stopped':
                 self.action = "stop"
